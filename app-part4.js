@@ -37,6 +37,7 @@ document.getElementById('applyCropBtn').addEventListener('click', () => {
 });
 cropDialog.addEventListener('close', () => { cropState = null; });
 
+// Events
 buildLayoutSelect();
 buildLayoutThumbs();
 createControls(basicControls, BASIC_DEFS, 'basic_');
@@ -49,7 +50,10 @@ if (memorialFont) memorialFont.addEventListener('change', queueRender);
 layoutSelect.addEventListener('change', onLayoutChanged);
 showSafeArea.addEventListener('change', queueRender);
 document.querySelectorAll('input[name="style"]').forEach(radio => {
-  radio.addEventListener('change', () => { states[selected].style = radio.value; queueRender(); });
+  radio.addEventListener('change', () => {
+    states[selected].style = radio.value;
+    queueRender();
+  });
 });
 
 document.getElementById('applyStyleAllBtn').addEventListener('click', applyStyleToAll);
@@ -75,11 +79,22 @@ previewCanvas.addEventListener('pointerdown', (evt) => {
   const { index, box } = hit;
   selectSlot(index);
   if (currentStep < 2) { currentStep = 2; updateStepUI(); }
+
   const state = states[index];
   if (!state.img) return;
+
   const [, , bw, bh] = box;
   const geom = getImageDisplayGeometry(state, bw, bh);
-  previewDrag = { index, startClientX: evt.clientX, startClientY: evt.clientY, startPanX: state.panX, startPanY: state.panY, extraX: geom.extraX, extraY: geom.extraY, moved: false };
+  previewDrag = {
+    index,
+    startClientX: evt.clientX,
+    startClientY: evt.clientY,
+    startPanX: state.panX,
+    startPanY: state.panY,
+    extraX: geom.extraX,
+    extraY: geom.extraY,
+    moved: false,
+  };
   previewCanvas.setPointerCapture?.(evt.pointerId);
 });
 
@@ -88,7 +103,11 @@ previewCanvas.addEventListener('pointermove', (evt) => {
   const rect = previewCanvas.getBoundingClientRect();
   const dx = (evt.clientX - previewDrag.startClientX) * (PREVIEW_W / rect.width);
   const dy = (evt.clientY - previewDrag.startClientY) * (PREVIEW_H / rect.height);
-  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) { previewDrag.moved = true; suppressPreviewClick = true; }
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    previewDrag.moved = true;
+    suppressPreviewClick = true;
+  }
+
   const state = states[previewDrag.index];
   if (previewDrag.extraX > 0) {
     const startSx = (previewDrag.extraX / 2) * (1 + clamp(previewDrag.startPanX, -1, 1));
@@ -100,7 +119,8 @@ previewCanvas.addEventListener('pointermove', (evt) => {
     const newSy = clamp(startSy - dy, 0, previewDrag.extraY);
     state.panY = clamp((newSy / (previewDrag.extraY / 2)) - 1, -1, 1);
   }
-  syncControlsFromState(); queueRender();
+  syncControlsFromState();
+  queueRender();
 });
 
 function finishPreviewDrag(evt) {
@@ -112,6 +132,7 @@ function finishPreviewDrag(evt) {
 previewCanvas.addEventListener('pointerup', finishPreviewDrag);
 previewCanvas.addEventListener('pointercancel', finishPreviewDrag);
 previewCanvas.addEventListener('pointerleave', (evt) => { if (previewDrag?.moved) finishPreviewDrag(evt); });
+
 previewCanvas.addEventListener('click', (evt) => {
   if (suppressPreviewClick) return;
   const point = getPreviewCanvasPoint(evt);
@@ -120,28 +141,49 @@ previewCanvas.addEventListener('click', (evt) => {
   const { index } = hit;
   selectSlot(index);
   if (currentStep < 2) { currentStep = 2; updateStepUI(); }
-  if (!states[index].img) { pendingSlot = index; fileInput.click(); }
+  if (!states[index].img) {
+    pendingSlot = index;
+    fileInput.click();
+  }
 });
 
 window.addEventListener('resize', queueRender);
-window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); deferredInstallPrompt = event; if (installAppBtn) installAppBtn.hidden = false; });
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (installAppBtn) installAppBtn.hidden = false;
+});
+
 if (installAppBtn) {
   installAppBtn.addEventListener('click', async () => {
     if (!deferredInstallPrompt) return;
     deferredInstallPrompt.prompt();
-    try { await deferredInstallPrompt.userChoice; } catch (_) {}
+    try {
+      await deferredInstallPrompt.userChoice;
+    } catch (_) {}
     deferredInstallPrompt = null;
     installAppBtn.hidden = true;
   });
 }
-window.addEventListener('appinstalled', () => { deferredInstallPrompt = null; if (installAppBtn) installAppBtn.hidden = true; });
-if (window.matchMedia('(display-mode: standalone)').matches) { if (installAppBtn) installAppBtn.hidden = true; }
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  if (installAppBtn) installAppBtn.hidden = true;
+});
+
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  if (installAppBtn) installAppBtn.hidden = true;
+}
 
 setupSlots();
 syncControlsFromState();
 updateReadiness();
 updateStepUI();
 queueRender();
+
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
 }
