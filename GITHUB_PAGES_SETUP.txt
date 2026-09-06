@@ -1,46 +1,52 @@
-PERINATAL LOSS KEEPSAKE CREATOR - GITHUB PAGES / CHROMEBOOK SETUP
-================================================================
+PERINATAL LOSS KEEPSAKE CREATOR - CHROMEBOOK PWA SETUP
+======================================================
 
-Repository
-----------
-WOwen14/Perinatal-Keepsake-Creator
+This folder is ready for GitHub Pages.
 
-ENABLE GITHUB PAGES
--------------------
-1. Open the repository on GitHub.
-2. Open Settings > Pages.
-3. Under Build and deployment choose:
-     Source: Deploy from a branch
-     Branch: main
-     Folder: / (root)
-4. Click Save.
-5. After GitHub publishes the site, the normal address is:
-     https://wOwen14.github.io/Perinatal-Keepsake-Creator/
+ONE-TIME GITHUB SETUP
+---------------------
+1. Sign in to GitHub.
+2. Create a new PUBLIC repository. Suggested name:
+      perinatal-loss-keepsake
+3. On the new repository page, choose Add file > Upload files.
+4. Upload the CONTENTS of this folder to the ROOT of the repository.
+   Important: index.html must be at the repository root, not inside another folder.
+5. Commit the files.
+6. Open repository Settings > Pages.
+7. Under Build and deployment:
+      Source: Deploy from a branch
+      Branch: main
+      Folder: / (root)
+   Click Save.
+8. GitHub will publish the site. The address will normally be:
+      https://YOUR-GITHUB-USERNAME.github.io/perinatal-loss-keepsake/
 
-CHROMEBOOK INSTALL
-------------------
+ONE-TIME CHROMEBOOK INSTALL
+---------------------------
 1. Open the published GitHub Pages address in Chrome on the Chromebook.
-2. After the PWA is recognized, use the browser install option or the app's Install App button when shown.
-3. Approve installation.
+2. Wait a few seconds. An Install App button should appear in the top-right of the Keepsake Creator.
+3. Click Install App and approve the installation.
 4. Open the Chromebook Launcher and find Perinatal Loss Keepsake Creator.
-5. Pin it to the shelf if desired.
+5. Right-click the app icon and choose Pin to shelf.
 
-NORMAL STAFF USE
+NORMAL NURSE USE
 ----------------
-Open the Keepsake Creator from Chrome or the installed app. Choose a layout, add photos, make adjustments, enter optional baby details, review, and print/save the final 8 x 10 keepsake.
+Click the Keepsake Creator icon on the Chromebook shelf. No Files app or index.html is needed.
 
 OFFLINE USE
 -----------
-After the app has been opened successfully while online, its core files are cached by the service worker for offline-capable use.
+After it has been opened successfully once from GitHub Pages, the core app files are cached on the Chromebook and the app can run without internet access.
 
 PRIVACY
 -------
-The hosted repository contains application code and branding only. Photos selected by staff are processed locally by browser code. The application contains no photo-upload endpoint or patient database.
-
-Never commit real patient photographs, names, dates of birth, medical records, or other protected health information to this repository.
-
-Hospital privacy, HIPAA, device-management, cybersecurity, retention, and workflow approval are still required before production use.
+The GitHub Pages site hosts only the application files (HTML, CSS, JavaScript, logo and icons). Baby photos selected by the nurse are processed locally in the Chromebook browser by this app. There is no photo-upload code in the Keepsake Creator.
 
 UPDATES
 -------
-Publish future application changes to the same main branch. When an installed copy is opened online, its service worker can refresh cached application files. Close and reopen the application if an older cached version remains active.
+When a newer version is uploaded to the same GitHub repository, open the app while online. The service worker will refresh the application files. If the old version remains open, close and reopen the app.
+
+
+Update in v2.6:
+- Restored the exact approved Abington logo
+- Restored and strengthened the 30-degree tiled screen watermark background
+- Bumped offline cache version to force Chromebook/GitHub Pages refresh

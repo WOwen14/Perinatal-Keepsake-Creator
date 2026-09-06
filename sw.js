@@ -1,15 +1,11 @@
-const CACHE = 'perinatal-loss-keepsake-v2-4-pwa-icons';
+const CACHE = 'perinatal-loss-keepsake-v2-6-pwa';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
-  './app-part1.js',
-  './app-part2.js',
-  './app-part3.js',
-  './app-part4.js',
+  './app.js',
   './manifest.json',
-  './committee-logo.svg',
-  './icons/icon.svg',
+  './abington-perinatal-logo-v26.png',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
