@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Perinatal Loss Keepsake Creator</title>
+  <rect width="512" height="512" rx="96" fill="#071a33"/>
+  <path d="M256 385S105 302 105 181c0-88 109-125 151-48 42-77 151-40 151 48 0 121-151 204-151 204z" fill="none" stroke="#d7cce1" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 237c39-63 96-57 106-7-40-10-68 11-81 44" fill="none" stroke="#a795bd" stroke-width="18" stroke-linecap="round"/>
+  <path d="M256 237c-39-63-96-57-106-7 40-10 68 11 81 44" fill="none" stroke="#88aeb0" stroke-width="18" stroke-linecap="round"/>
+  <path d="M256 238v71" stroke="#e9eef2" stroke-width="14" stroke-linecap="round"/>
+</svg>
