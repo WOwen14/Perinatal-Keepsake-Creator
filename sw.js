@@ -1,4 +1,4 @@
-const CACHE = 'perinatal-loss-keepsake-v2-4-pwa';
+const CACHE = 'perinatal-loss-keepsake-v2-4-pwa-icons';
 const ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,9 @@ const ASSETS = [
   './app-part4.js',
   './manifest.json',
   './committee-logo.svg',
-  './icons/icon.svg'
+  './icons/icon.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
