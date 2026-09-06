@@ -55,17 +55,20 @@ The project contains `.nojekyll`, `manifest.json`, and `sw.js` and is structured
 .
 ├── index.html
 ├── styles.css
-├── app.js
+├── app-part1.js
+├── app-part2.js
+├── app-part3.js
+├── app-part4.js
 ├── manifest.json
 ├── sw.js
-├── committee-logo.png
-├── committee-logo-source.png
+├── committee-logo.svg
 ├── icons/
-│   ├── icon-192.png
-│   └── icon-512.png
+│   └── icon.svg
 ├── .nojekyll
 └── GITHUB_PAGES_SETUP.txt
 ```
+
+The four `app-part*.js` files are the original v2.4 application logic split into ordered, version-controlled source files. When concatenated in order, they reproduce the original `app.js` byte-for-byte.
 
 ## Status
 
