@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-labelledby="title desc">
+  <title id="title">Abington Perinatal Loss Support Team</title>
+  <desc id="desc">Compassionate heart and butterfly line-art mark with Abington Perinatal Loss Support Team text.</desc>
+  <rect width="900" height="360" rx="28" fill="#ffffff"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M176 72c-35-49-105-25-105 31 0 62 105 120 105 120s105-58 105-120c0-56-70-80-105-31z" stroke="#7899ad" stroke-width="10"/>
+    <path d="M178 130c34-55 83-50 91-6-35-9-58 10-69 39" stroke="#a795bd" stroke-width="8"/>
+    <path d="M178 130c-34-55-83-50-91-6 35-9 58 10 69 39" stroke="#88aeb0" stroke-width="8"/>
+    <path d="M178 132v63" stroke="#8d9eac" stroke-width="6"/>
+  </g>
+  <g fill="#334d5d" font-family="Arial, Helvetica, sans-serif">
+    <text x="330" y="130" font-size="70" font-weight="500" letter-spacing="2">Abington</text>
+    <text x="334" y="185" font-size="28" letter-spacing="3">PERINATAL LOSS SUPPORT TEAM</text>
+  </g>
+  <line x1="330" y1="220" x2="820" y2="220" stroke="#d7cce1" stroke-width="3"/>
+  <text x="575" y="270" text-anchor="middle" fill="#8e77a7" font-family="Georgia, serif" font-style="italic" font-size="34">Always Remembered</text>
+  <text x="575" y="310" text-anchor="middle" fill="#607985" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="4">SUPPORT • COMPASSION • HOPE</text>
+</svg>
