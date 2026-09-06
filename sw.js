@@ -8,9 +8,8 @@ const ASSETS = [
   './app-part3.js',
   './app-part4.js',
   './manifest.json',
-  './committee-logo.png',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './committee-logo.svg',
+  './icons/icon.svg'
 ];
 
 self.addEventListener('install', event => {
