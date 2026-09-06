@@ -1,0 +1,30 @@
+{
+  "id": "./",
+  "name": "Perinatal Loss Keepsake Creator",
+  "short_name": "Keepsake Creator",
+  "description": "Offline-capable 8x10 perinatal loss keepsake creator for Jefferson Abington Hospital.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "background_color": "#f3f6f8",
+  "theme_color": "#071a33",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
