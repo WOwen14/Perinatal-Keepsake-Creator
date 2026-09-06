@@ -5,39 +5,317 @@ function buildCanvas(w, h, includeGuides) {
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, w, h);
+
   const boxes = getBoxes(w, h);
   boxes.forEach(([x, y, bw, bh], i) => {
     const s = states[i];
     if (!s.img) {
-      ctx.fillStyle = '#efefec'; ctx.strokeStyle = '#d2d1cc'; ctx.lineWidth = Math.max(1, Math.round(w / 800));
-      ctx.fillRect(x, y, bw, bh); ctx.strokeRect(x, y, bw, bh); ctx.fillStyle = '#8a8a86'; ctx.textAlign = 'center';
-      ctx.font = `${Math.max(11, Math.round(h * 0.022))}px Arial`; ctx.fillText(`Photo ${i + 1}`, x + bw / 2, y + bh / 2 - Math.max(8, Math.round(h * 0.01)));
-      ctx.font = `${Math.max(10, Math.round(h * 0.017))}px Arial`; ctx.fillText('+ Add Photo', x + bw / 2, y + bh / 2 + Math.max(12, Math.round(h * 0.015)));
+      ctx.fillStyle = '#efefec';
+      ctx.strokeStyle = '#d2d1cc';
+      ctx.lineWidth = Math.max(1, Math.round(w / 800));
+      ctx.fillRect(x, y, bw, bh);
+      ctx.strokeRect(x, y, bw, bh);
+      ctx.fillStyle = '#8a8a86';
+      ctx.textAlign = 'center';
+      ctx.font = `${Math.max(11, Math.round(h * 0.022))}px Arial`;
+      ctx.fillText(`Photo ${i + 1}`, x + bw / 2, y + bh / 2 - Math.max(8, Math.round(h * 0.01)));
+      ctx.font = `${Math.max(10, Math.round(h * 0.017))}px Arial`;
+      ctx.fillText('+ Add Photo', x + bw / 2, y + bh / 2 + Math.max(12, Math.round(h * 0.015)));
     } else {
-      const processed = createProcessedCanvas(s); ctx.save(); ctx.beginPath(); ctx.rect(x, y, bw, bh); ctx.clip(); drawCover(ctx, processed, x, y, bw, bh, s); ctx.restore();
+      const processed = createProcessedCanvas(s);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x, y, bw, bh);
+      ctx.clip();
+      drawCover(ctx, processed, x, y, bw, bh, s);
+      ctx.restore();
     }
     ctx.strokeStyle = i === selected && currentStep >= 2 && currentStep <= 4 ? '#2f93a6' : 'white';
     ctx.lineWidth = i === selected && currentStep >= 2 && currentStep <= 4 ? Math.max(3, Math.round(w / 450)) : Math.max(2, Math.round(w / 600));
     ctx.strokeRect(x, y, bw, bh);
   });
-  drawMemorialText(ctx, w, h); if (includeGuides) drawSafeArea(ctx, w, h); return canvas;
+
+  drawMemorialText(ctx, w, h);
+  if (includeGuides) drawSafeArea(ctx, w, h);
+  return canvas;
 }
-function updatePreviewButtons(){previewButtons.innerHTML='';const boxes=getBoxes(PREVIEW_W,PREVIEW_H),rect=previewCanvas.getBoundingClientRect(),scaleX=rect.width/PREVIEW_W,scaleY=rect.height/PREVIEW_H;boxes.forEach(([x,y,bw,bh],i)=>{const state=states[i];if(state.img)return;const btn=document.createElement('button');btn.type='button';btn.className='preview-add-btn';btn.textContent=`+ Add Photo ${i+1}`;btn.style.left=`${x*scaleX+bw*scaleX*0.18}px`;btn.style.top=`${y*scaleY+bh*scaleY*0.42}px`;btn.style.width=`${bw*scaleX*0.64}px`;btn.style.height=`${Math.min(44,Math.max(30,bh*scaleY*0.18))}px`;btn.addEventListener('click',e=>{e.stopPropagation();selectSlot(i);pendingSlot=i;fileInput.click();});previewButtons.appendChild(btn);});}
-function renderPreview(){renderQueued=false;const canvas=buildCanvas(PREVIEW_W,PREVIEW_H,true);previewCtx.clearRect(0,0,PREVIEW_W,PREVIEW_H);previewCtx.drawImage(canvas,0,0);updatePreviewButtons();}
-function queueRender(){if(renderQueued)return;renderQueued=true;requestAnimationFrame(renderPreview);}
-function updateReadiness(){const required=getRequiredSlots(),loaded=states.slice(0,required).filter(s=>!!s.img).length,items=[{label:'Layout selected',ok:!!layoutSelect.value},{label:`${required} required photo${required===1?'':'s'} loaded`,ok:loaded===required,detail:`${loaded} of ${required}`},{label:`Baby's name entered`,ok:babyName.value.trim().length>0},{label:'Birthday entered',ok:birthday.value.trim().length>0},{label:'Preview ready',ok:true}];const html=items.map(item=>`<li class="${item.ok?'ok':'not-ok'}"><span class="check-icon">${item.ok?'✓':'•'}</span><span>${item.label}${item.detail?` (${item.detail})`:''}</span></li>`).join('');document.getElementById('readinessList').innerHTML=html;document.getElementById('readinessListRight').innerHTML=html;const ready=items.every(item=>item.ok);document.getElementById('readinessSummary').textContent=ready?'Everything needed for a typical keepsake is ready.':'Complete the items above before printing.';printBtn.disabled=!ready;return ready;}
-function downloadCanvas(type){const canvas=buildCanvas(OUTPUT_W,OUTPUT_H,false),mime=type==='png'?'image/png':'image/jpeg',quality=type==='png'?undefined:0.96;canvas.toBlob(blob=>{const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`keepsake_8x10.${type}`;a.click();URL.revokeObjectURL(url);},mime,quality);}
-function printCanvas(){if(!updateReadiness()){currentStep=5;updateStepUI();alert('Please complete the Print Readiness Check before printing.');return;}const canvas=buildCanvas(OUTPUT_W,OUTPUT_H,false),dataUrl=canvas.toDataURL('image/jpeg',0.98),win=window.open('','_blank');if(!win){alert('The print window was blocked. Please allow pop-ups for this app and try again.');return;}win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title></title><style>@page{size:8in 10in;margin:0}html,body{width:8in;height:10in;margin:0;padding:0;overflow:hidden;background:#fff}img{display:block;width:8in;height:10in;margin:0;padding:0;object-fit:fill}@media print{html,body{width:8in!important;height:10in!important;margin:0!important;padding:0!important}img{width:8in!important;height:10in!important;margin:0!important}}</style></head><body><img src="${dataUrl}" alt="Keepsake" onload="setTimeout(function(){window.print();}, 150);"></body></html>`);win.document.close();}
-function resetSelected(){const old=states[selected],fresh=makeDefaultState();fresh.fileName=old.fileName;fresh.img=old.img;fresh.previewUrl=old.previewUrl;states[selected]=fresh;syncControlsFromState();updateReadiness();queueRender();}
-function newKeepsake(){if(!confirm('Start a new keepsake? The current photos and adjustments will be cleared.'))return;states.forEach(s=>{if(s.previewUrl)URL.revokeObjectURL(s.previewUrl);});states=Array.from({length:4},makeDefaultState);selected=0;babyName.value='';birthday.value='';if(memorialFont)memorialFont.value='Arial, Helvetica, sans-serif';layoutSelect.value='Classic 4-Photo';showSafeArea.checked=true;currentStep=1;showAdvanced=false;advancedWrap.hidden=true;document.getElementById('toggleAdvancedBtn').textContent='Show Advanced';syncLayoutThumbSelection();setupSlots();syncControlsFromState();updateReadiness();updateStepUI();queueRender();}
-function applyStyleToAll(){const style=states[selected].style,required=getRequiredSlots();for(let i=0;i<required;i++)states[i].style=style;syncControlsFromState();queueRender();}
-function applySelectedSettingsToAll(){const src=states[selected],required=getRequiredSlots(),keys=['brightness','contrast','saturation','hue','warmth','sharpness','zoom','panX','panY','rotation','style'];for(let i=0;i<required;i++){if(i===selected)continue;keys.forEach(key=>{states[i][key]=src[key];});}syncControlsFromState();queueRender();}
-function rotateSelected(delta){states[selected].rotation=(states[selected].rotation+delta+360)%360;queueRender();}
-function clearCrop(){states[selected].cropBox=null;queueRender();}
-function toggleAdvancedControls(){showAdvanced=!showAdvanced;advancedWrap.hidden=!showAdvanced;document.getElementById('toggleAdvancedBtn').textContent=showAdvanced?'Hide Advanced':'Show Advanced';}
-function updateStepUI(){document.querySelectorAll('.step-chip').forEach(btn=>{const step=Number(btn.dataset.step);btn.classList.toggle('active',step===currentStep);btn.classList.toggle('done',step<currentStep);});document.querySelectorAll('.step-section').forEach(sec=>{sec.hidden=Number(sec.dataset.step)!==currentStep;});document.querySelectorAll('.step-pane').forEach(sec=>{sec.hidden=Number(sec.dataset.step)!==currentStep;});document.getElementById('backStepBtn').disabled=currentStep===1;document.getElementById('nextStepBtn').textContent=currentStep===5?'Print Keepsake':'Next';updateReadiness();queueRender();}
-function nextStep(){if(currentStep===2){const required=getRequiredSlots(),loaded=states.slice(0,required).filter(s=>!!s.img).length;if(loaded<required&&!confirm(`Only ${loaded} of ${required} required photos are loaded. Continue anyway?`))return;}if(currentStep===5){printCanvas();return;}currentStep+=1;updateStepUI();}
-function prevStep(){if(currentStep===1)return;currentStep-=1;updateStepUI();}
-function openCropTool(){const state=states[selected];if(!state.img){alert('Load a photo first, then crop it.');return;}const maxW=860,maxH=620,scale=Math.min(maxW/state.img.naturalWidth,maxH/state.img.naturalHeight,1);cropCanvas.width=Math.max(1,Math.round(state.img.naturalWidth*scale));cropCanvas.height=Math.max(1,Math.round(state.img.naturalHeight*scale));cropCtx.clearRect(0,0,cropCanvas.width,cropCanvas.height);cropCtx.drawImage(state.img,0,0,cropCanvas.width,cropCanvas.height);let sel;if(state.cropBox){const[l,t,r,b]=state.cropBox;sel={x1:l*cropCanvas.width,y1:t*cropCanvas.height,x2:r*cropCanvas.width,y2:b*cropCanvas.height};}else{sel={x1:cropCanvas.width*0.07,y1:cropCanvas.height*0.07,x2:cropCanvas.width*0.93,y2:cropCanvas.height*0.93};}cropState={sel,dragging:false,startX:0,startY:0};drawCropOverlay();cropDialog.showModal();}
-function normalizedSel(sel){const x1=clamp(Math.min(sel.x1,sel.x2),0,cropCanvas.width),y1=clamp(Math.min(sel.y1,sel.y2),0,cropCanvas.height),x2=clamp(Math.max(sel.x1,sel.x2),0,cropCanvas.width),y2=clamp(Math.max(sel.y1,sel.y2),0,cropCanvas.height);return{x1,y1,x2:Math.max(x1+12,x2),y2:Math.max(y1+12,y2)};}
-function drawCropOverlay(){const state=states[selected];cropCtx.clearRect(0,0,cropCanvas.width,cropCanvas.height);cropCtx.drawImage(state.img,0,0,cropCanvas.width,cropCanvas.height);const sel=normalizedSel(cropState.sel);cropState.sel=sel;cropCtx.fillStyle='rgba(0,0,0,0.35)';cropCtx.fillRect(0,0,cropCanvas.width,sel.y1);cropCtx.fillRect(0,sel.y2,cropCanvas.width,cropCanvas.height-sel.y2);cropCtx.fillRect(0,sel.y1,sel.x1,sel.y2-sel.y1);cropCtx.fillRect(sel.x2,sel.y1,cropCanvas.width-sel.x2,sel.y2-sel.y1);cropCtx.strokeStyle='#ffd24d';cropCtx.lineWidth=2;cropCtx.strokeRect(sel.x1,sel.y1,sel.x2-sel.x1,sel.y2-sel.y1);}
+
+function updatePreviewButtons() {
+  previewButtons.innerHTML = '';
+  const boxes = getBoxes(PREVIEW_W, PREVIEW_H);
+  const rect = previewCanvas.getBoundingClientRect();
+  const scaleX = rect.width / PREVIEW_W;
+  const scaleY = rect.height / PREVIEW_H;
+
+  boxes.forEach(([x, y, bw, bh], i) => {
+    const state = states[i];
+    if (state.img) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'preview-add-btn';
+    btn.textContent = `+ Add Photo ${i + 1}`;
+    btn.style.left = `${x * scaleX + bw * scaleX * 0.18}px`;
+    btn.style.top = `${y * scaleY + bh * scaleY * 0.42}px`;
+    btn.style.width = `${bw * scaleX * 0.64}px`;
+    btn.style.height = `${Math.min(44, Math.max(30, bh * scaleY * 0.18))}px`;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectSlot(i);
+      pendingSlot = i;
+      fileInput.click();
+    });
+    previewButtons.appendChild(btn);
+  });
+}
+
+function renderPreview() {
+  renderQueued = false;
+  const canvas = buildCanvas(PREVIEW_W, PREVIEW_H, true);
+  previewCtx.clearRect(0, 0, PREVIEW_W, PREVIEW_H);
+  previewCtx.drawImage(canvas, 0, 0);
+  updatePreviewButtons();
+}
+
+function queueRender() {
+  if (renderQueued) return;
+  renderQueued = true;
+  requestAnimationFrame(renderPreview);
+}
+
+function updateReadiness() {
+  const required = getRequiredSlots();
+  const loaded = states.slice(0, required).filter(s => !!s.img).length;
+  const items = [
+    { label: `Layout selected`, ok: !!layoutSelect.value },
+    { label: `${required} required photo${required === 1 ? '' : 's'} loaded`, ok: loaded === required, detail: `${loaded} of ${required}` },
+    { label: `Baby's name entered`, ok: babyName.value.trim().length > 0 },
+    { label: `Birthday entered`, ok: birthday.value.trim().length > 0 },
+    { label: `Preview ready`, ok: true },
+  ];
+
+  const html = items.map(item => `<li class="${item.ok ? 'ok' : 'not-ok'}"><span class="check-icon">${item.ok ? '✓' : '•'}</span><span>${item.label}${item.detail ? ` (${item.detail})` : ''}</span></li>`).join('');
+  document.getElementById('readinessList').innerHTML = html;
+  document.getElementById('readinessListRight').innerHTML = html;
+
+  const ready = items.every(item => item.ok);
+  document.getElementById('readinessSummary').textContent = ready
+    ? 'Everything needed for a typical keepsake is ready.'
+    : 'Complete the items above before printing.';
+
+  printBtn.disabled = !ready;
+  return ready;
+}
+
+function downloadCanvas(type) {
+  const canvas = buildCanvas(OUTPUT_W, OUTPUT_H, false);
+  const mime = type === 'png' ? 'image/png' : 'image/jpeg';
+  const quality = type === 'png' ? undefined : 0.96;
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `keepsake_8x10.${type}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, mime, quality);
+}
+
+function printCanvas() {
+  if (!updateReadiness()) {
+    currentStep = 5;
+    updateStepUI();
+    alert('Please complete the Print Readiness Check before printing.');
+    return;
+  }
+  const canvas = buildCanvas(OUTPUT_W, OUTPUT_H, false);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.98);
+  const win = window.open('', '_blank');
+  if (!win) {
+    alert('The print window was blocked. Please allow pop-ups for this app and try again.');
+    return;
+  }
+  win.document.write(`<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title></title>
+      <style>
+        @page { size: 8in 10in; margin: 0; }
+        html, body {
+          width: 8in; height: 10in; margin: 0; padding: 0; overflow: hidden; background: #fff;
+        }
+        img { display:block; width:8in; height:10in; margin:0; padding:0; object-fit:fill; }
+        @media print {
+          html, body { width:8in !important; height:10in !important; margin:0 !important; padding:0 !important; }
+          img { width:8in !important; height:10in !important; margin:0 !important; }
+        }
+      </style>
+    </head>
+    <body>
+      <img src="${dataUrl}" alt="Keepsake" onload="setTimeout(function(){window.print();}, 150);">
+    </body>
+  </html>`);
+  win.document.close();
+}
+
+function resetSelected() {
+  const old = states[selected];
+  const fresh = makeDefaultState();
+  fresh.fileName = old.fileName;
+  fresh.img = old.img;
+  fresh.previewUrl = old.previewUrl;
+  states[selected] = fresh;
+  syncControlsFromState();
+  updateReadiness();
+  queueRender();
+}
+
+function newKeepsake() {
+  if (!confirm('Start a new keepsake? The current photos and adjustments will be cleared.')) return;
+  states.forEach(s => { if (s.previewUrl) URL.revokeObjectURL(s.previewUrl); });
+  states = Array.from({ length: 4 }, makeDefaultState);
+  selected = 0;
+  babyName.value = '';
+  birthday.value = '';
+  if (memorialFont) memorialFont.value = 'Arial, Helvetica, sans-serif';
+  layoutSelect.value = 'Classic 4-Photo';
+  showSafeArea.checked = true;
+  currentStep = 1;
+  showAdvanced = false;
+  advancedWrap.hidden = true;
+  document.getElementById('toggleAdvancedBtn').textContent = 'Show Advanced';
+  syncLayoutThumbSelection();
+  setupSlots();
+  syncControlsFromState();
+  updateReadiness();
+  updateStepUI();
+  queueRender();
+}
+
+function applyStyleToAll() {
+  const style = states[selected].style;
+  const required = getRequiredSlots();
+  for (let i = 0; i < required; i++) states[i].style = style;
+  syncControlsFromState();
+  queueRender();
+}
+
+function applySelectedSettingsToAll() {
+  const src = states[selected];
+  const required = getRequiredSlots();
+  const keys = ['brightness', 'contrast', 'saturation', 'hue', 'warmth', 'sharpness', 'zoom', 'panX', 'panY', 'rotation', 'style'];
+  for (let i = 0; i < required; i++) {
+    if (i === selected) continue;
+    keys.forEach(key => { states[i][key] = src[key]; });
+  }
+  syncControlsFromState();
+  queueRender();
+}
+
+function rotateSelected(delta) {
+  states[selected].rotation = (states[selected].rotation + delta + 360) % 360;
+  queueRender();
+}
+
+function clearCrop() {
+  states[selected].cropBox = null;
+  queueRender();
+}
+
+function toggleAdvancedControls() {
+  showAdvanced = !showAdvanced;
+  advancedWrap.hidden = !showAdvanced;
+  document.getElementById('toggleAdvancedBtn').textContent = showAdvanced ? 'Hide Advanced' : 'Show Advanced';
+}
+
+function updateStepUI() {
+  document.querySelectorAll('.step-chip').forEach(btn => {
+    const step = Number(btn.dataset.step);
+    btn.classList.toggle('active', step === currentStep);
+    btn.classList.toggle('done', step < currentStep);
+  });
+
+  document.querySelectorAll('.step-section').forEach(sec => {
+    sec.hidden = Number(sec.dataset.step) !== currentStep;
+  });
+  document.querySelectorAll('.step-pane').forEach(sec => {
+    sec.hidden = Number(sec.dataset.step) !== currentStep;
+  });
+
+  document.getElementById('backStepBtn').disabled = currentStep === 1;
+  document.getElementById('nextStepBtn').textContent = currentStep === 5 ? 'Print Keepsake' : 'Next';
+  updateReadiness();
+  queueRender();
+}
+
+function nextStep() {
+  if (currentStep === 2) {
+    const required = getRequiredSlots();
+    const loaded = states.slice(0, required).filter(s => !!s.img).length;
+    if (loaded < required && !confirm(`Only ${loaded} of ${required} required photos are loaded. Continue anyway?`)) return;
+  }
+  if (currentStep === 5) {
+    printCanvas();
+    return;
+  }
+  currentStep += 1;
+  updateStepUI();
+}
+
+function prevStep() {
+  if (currentStep === 1) return;
+  currentStep -= 1;
+  updateStepUI();
+}
+
+// Crop tool
+function openCropTool() {
+  const state = states[selected];
+  if (!state.img) {
+    alert('Load a photo first, then crop it.');
+    return;
+  }
+  const maxW = 860;
+  const maxH = 620;
+  const scale = Math.min(maxW / state.img.naturalWidth, maxH / state.img.naturalHeight, 1);
+  cropCanvas.width = Math.max(1, Math.round(state.img.naturalWidth * scale));
+  cropCanvas.height = Math.max(1, Math.round(state.img.naturalHeight * scale));
+  cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+  cropCtx.drawImage(state.img, 0, 0, cropCanvas.width, cropCanvas.height);
+
+  let sel;
+  if (state.cropBox) {
+    const [l, t, r, b] = state.cropBox;
+    sel = { x1: l * cropCanvas.width, y1: t * cropCanvas.height, x2: r * cropCanvas.width, y2: b * cropCanvas.height };
+  } else {
+    sel = { x1: cropCanvas.width * 0.07, y1: cropCanvas.height * 0.07, x2: cropCanvas.width * 0.93, y2: cropCanvas.height * 0.93 };
+  }
+  cropState = { sel, dragging: false, startX: 0, startY: 0 };
+  drawCropOverlay();
+  cropDialog.showModal();
+}
+
+function normalizedSel(sel) {
+  const x1 = clamp(Math.min(sel.x1, sel.x2), 0, cropCanvas.width);
+  const y1 = clamp(Math.min(sel.y1, sel.y2), 0, cropCanvas.height);
+  const x2 = clamp(Math.max(sel.x1, sel.x2), 0, cropCanvas.width);
+  const y2 = clamp(Math.max(sel.y1, sel.y2), 0, cropCanvas.height);
+  return { x1, y1, x2: Math.max(x1 + 12, x2), y2: Math.max(y1 + 12, y2) };
+}
+
+function drawCropOverlay() {
+  const state = states[selected];
+  cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+  cropCtx.drawImage(state.img, 0, 0, cropCanvas.width, cropCanvas.height);
+  const sel = normalizedSel(cropState.sel);
+  cropState.sel = sel;
+  cropCtx.fillStyle = 'rgba(0,0,0,0.35)';
+  cropCtx.fillRect(0, 0, cropCanvas.width, sel.y1);
+  cropCtx.fillRect(0, sel.y2, cropCanvas.width, cropCanvas.height - sel.y2);
+  cropCtx.fillRect(0, sel.y1, sel.x1, sel.y2 - sel.y1);
+  cropCtx.fillRect(sel.x2, sel.y1, cropCanvas.width - sel.x2, sel.y2 - sel.y1);
+  cropCtx.strokeStyle = '#ffd24d';
+  cropCtx.lineWidth = 2;
+  cropCtx.strokeRect(sel.x1, sel.y1, sel.x2 - sel.x1, sel.y2 - sel.y1);
+}
+
