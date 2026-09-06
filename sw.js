@@ -1,4 +1,4 @@
-const CACHE = 'perinatal-loss-keepsake-v2-6-pwa';
+const CACHE = 'perinatal-loss-keepsake-v2-7-pwa';
 const ASSETS = [
   './',
   './index.html',
@@ -6,8 +6,9 @@ const ASSETS = [
   './app.js',
   './manifest.json',
   './abington-perinatal-logo-v26.png',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-192-v27.png',
+  './icons/icon-512-v27.png',
+  './favicon.png'
 ];
 
 self.addEventListener('install', event => {
