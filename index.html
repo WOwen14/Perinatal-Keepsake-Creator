@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#8fa4b3" />
+  <title>Perinatal Loss Keepsake Creator</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-lockup">
+      <div class="logo-shell">
+        <img id="hospitalLogo" src="committee-logo.png" alt="Abington Perinatal Loss Support Team logo" />
+      </div>
+      <div class="brand-copy">
+        <div class="eyebrow">JEFFERSON ABINGTON HOSPITAL</div>
+        <h1>Perinatal Loss Keepsake Creator</h1>
+        <p>Abington Jefferson Perinatal Loss Committee</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="installAppBtn" class="header-button install-button" hidden>Install App</button>
+      <div class="status-pill"><span class="status-dot"></span>Local &amp; Offline</div>
+      <button id="newKeepsakeBtn" class="header-button">New Keepsake</button>
+    </div>
+  </header>
+
+  <div class="clinical-bar">
+    <span>GUIDED WORKFLOW</span>
+    <span>8 × 10 in</span>
+    <span>300 DPI</span>
+    <span id="layoutSummary">4 Photos</span>
+  </div>
+
+  <main class="app-grid">
+    <aside class="panel panel-left">
+      <section class="workflow-card">
+        <div class="section-kicker">GUIDED WORKFLOW</div>
+        <div id="stepper" class="stepper">
+          <button class="step-chip active" data-step="1">1. Layout</button>
+          <button class="step-chip" data-step="2">2. Photos</button>
+          <button class="step-chip" data-step="3">3. Adjust</button>
+          <button class="step-chip" data-step="4">4. Details</button>
+          <button class="step-chip" data-step="5">5. Review</button>
+        </div>
+      </section>
+
+      <div class="scroll-area">
+        <section class="step-section" data-step="1">
+          <div class="section-kicker">STEP 1</div>
+          <h2>Choose a Layout</h2>
+          <p class="help-text">Tap a layout below. The number of photo slots will update automatically.</p>
+          <div id="layoutThumbs" class="layout-thumbs"></div>
+          <label class="field-label">
+            <span>Selected Layout</span>
+            <select id="layoutSelect"></select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="showSafeArea" checked />
+            <span>Show print-safe area</span>
+          </label>
+        </section>
+
+        <section class="step-section" data-step="2" hidden>
+          <div class="section-kicker">STEP 2</div>
+          <h2>Add Photos</h2>
+          <p class="help-text">Use the buttons below or tap an empty photo frame in the preview.</p>
+          <div id="photoSlots" class="slots"></div>
+        </section>
+
+        <section class="step-section" data-step="3" hidden>
+          <div class="section-kicker">STEP 3</div>
+          <h2>Edit Photos</h2>
+          <p class="help-text">Select a photo, then use the controls on the right. Start with the basic tools. Advanced controls are optional.</p>
+          <div class="helper-box">
+            <strong>Selected photo:</strong> <span id="leftSelectedPhoto">Photo 1</span>
+          </div>
+        </section>
+
+        <section class="step-section patient-card" data-step="4" hidden>
+          <div class="section-kicker">STEP 4</div>
+          <h2>Baby Details</h2>
+          <label class="field-label">
+            <span>Baby's Name</span>
+            <input id="babyName" type="text" placeholder="Enter baby's name" />
+          </label>
+          <label class="field-label">
+            <span>Birthday</span>
+            <input id="birthday" type="text" placeholder="MM/DD/YYYY" />
+          </label>
+          <label class="field-label">
+            <span>Font for Name &amp; Date</span>
+            <select id="memorialFont">
+              <option value="Arial, Helvetica, sans-serif">Arial</option>
+              <option value="Verdana, Geneva, sans-serif">Verdana</option>
+              <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+              <option value="'Trebuchet MS', Helvetica, sans-serif">Trebuchet MS</option>
+              <option value="Georgia, 'Times New Roman', serif">Georgia</option>
+              <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino</option>
+            </select>
+          </label>
+          <p class="help-text">These details are printed as part of the final keepsake image. Font choices are intentionally simple and easy to read.</p>
+        </section>
+
+        <section class="step-section readiness-card" data-step="5" hidden>
+          <div class="section-kicker">STEP 5</div>
+          <h2>Print Readiness Check</h2>
+          <ul id="readinessList" class="checklist"></ul>
+          <p id="readinessSummary" class="help-text"></p>
+        </section>
+      </div>
+
+      <div class="wizard-nav">
+        <button id="backStepBtn" class="secondary-action">Back</button>
+        <button id="nextStepBtn" class="primary">Next</button>
+      </div>
+    </aside>
+
+    <section class="panel panel-center">
+      <h2 id="previewHeading">2. Live 8×10 Preview</h2>
+      <div class="preview-wrap">
+        <div id="previewStage" class="preview-stage">
+          <canvas id="previewCanvas" width="560" height="700" title="Click a panel to select it or add a photo"></canvas>
+          <div id="previewButtons" class="preview-buttons"></div>
+        </div>
+      </div>
+      <p id="previewHelp" class="help-text">The dotted inset is a conservative print-safe guide and is not printed. Empty frames include add-photo buttons directly on the preview.</p>
+      <div class="action-row">
+        <button id="saveJpgBtn" class="primary">Save 8×10 JPG</button>
+        <button id="savePngBtn">Save PNG</button>
+        <button id="printBtn" class="primary">Print 8×10</button>
+      </div>
+      <p class="print-tip"><strong>Print setup:</strong> Choose 8×10 paper and Borderless/None margins when your printer supports it.</p>
+    </section>
+
+    <aside class="panel panel-right">
+      <section class="step-pane" data-step="1">
+        <div class="section-kicker">HELPFUL TIP</div>
+        <h2>Choose the Best Layout</h2>
+        <p class="help-text">For one special photo, use <strong>Single Full Photo</strong>. For a main photo plus smaller supporting photos, use <strong>Feature + Three</strong>.</p>
+      </section>
+
+      <section class="step-pane" data-step="2" hidden>
+        <div class="section-kicker">HELPFUL TIP</div>
+        <h2>Adding Photos</h2>
+        <p class="help-text">Tap <strong>Add / Replace</strong> on the left, or tap the blue button inside an empty frame in the preview. The selected frame is outlined.</p>
+      </section>
+
+      <section class="editor-pane step-pane" data-step="3" hidden>
+        <div class="section-kicker">STEP 3</div>
+        <h2 id="selectedTitle">Photo 1 Adjustments</h2>
+
+        <section>
+          <h3>Photo Style</h3>
+          <div class="style-row">
+            <label><input type="radio" name="style" value="Color" checked /> Color</label>
+            <label><input type="radio" name="style" value="Black & White" /> Black &amp; White</label>
+            <label><input type="radio" name="style" value="Sepia" /> Sepia</label>
+          </div>
+          <div class="stacked-buttons">
+            <button id="applyStyleAllBtn">Apply Style to All</button>
+            <button id="applySettingsAllBtn">Apply Selected Photo Settings to All</button>
+          </div>
+        </section>
+
+        <section>
+          <div class="basic-advanced-row">
+            <h3>Basic Adjustments</h3>
+            <button id="toggleAdvancedBtn" class="small-button" type="button">Show Advanced</button>
+          </div>
+          <div id="basicControls"></div>
+          <div id="advancedWrap" hidden>
+            <h3 class="advanced-title">Advanced Adjustments</h3>
+            <div id="advancedControls"></div>
+          </div>
+        </section>
+
+        <section>
+          <div class="two-col-buttons">
+            <button id="rotateLeftBtn">Rotate Left</button>
+            <button id="rotateRightBtn">Rotate Right</button>
+          </div>
+          <div class="two-col-buttons compact-top">
+            <button id="cropBtn">Crop Selected Photo</button>
+            <button id="clearCropBtn">Clear Crop</button>
+          </div>
+          <button id="resetSelectedBtn" class="block-btn">Reset Selected Photo</button>
+        </section>
+      </section>
+
+      <section class="step-pane" data-step="4" hidden>
+        <div class="section-kicker">HELPFUL TIP</div>
+        <h2>Baby Details</h2>
+        <p class="help-text">Adding the baby's name and birthday will place those details at the bottom of the printed keepsake. You can also choose a clean, easy-to-read font.</p>
+      </section>
+
+      <section class="step-pane" data-step="5" hidden>
+        <div class="section-kicker">READY TO PRINT</div>
+        <h2>Review &amp; Print</h2>
+        <ul id="readinessListRight" class="checklist"></ul>
+        <p class="help-text">When all items are ready, use the Print button below the preview.</p>
+      </section>
+
+      <p class="privacy-note">Privacy: photos are processed locally on this device. This app does not upload or transmit images.</p>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <div>Abington Jefferson Perinatal Loss Committee</div>
+    <div>Perinatal Loss Keepsake Creator</div>
+    <div class="footer-privacy">Images remain on this device</div>
+  </footer>
+
+  <input id="fileInput" type="file" accept="image/*" hidden />
+
+  <dialog id="cropDialog">
+    <form method="dialog" class="crop-dialog-card">
+      <h2>Crop Photo</h2>
+      <p>Drag a rectangle to choose the area to keep.</p>
+      <canvas id="cropCanvas"></canvas>
+      <div class="dialog-actions">
+        <button value="cancel">Cancel</button>
+        <button type="button" id="useFullPhotoBtn">Use Full Photo</button>
+        <button type="button" id="applyCropBtn" class="primary">Apply Crop</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
