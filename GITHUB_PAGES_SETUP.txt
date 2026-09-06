@@ -1,0 +1,46 @@
+PERINATAL LOSS KEEPSAKE CREATOR - GITHUB PAGES / CHROMEBOOK SETUP
+================================================================
+
+Repository
+----------
+WOwen14/Perinatal-Keepsake-Creator
+
+ENABLE GITHUB PAGES
+-------------------
+1. Open the repository on GitHub.
+2. Open Settings > Pages.
+3. Under Build and deployment choose:
+     Source: Deploy from a branch
+     Branch: main
+     Folder: / (root)
+4. Click Save.
+5. After GitHub publishes the site, the normal address is:
+     https://wOwen14.github.io/Perinatal-Keepsake-Creator/
+
+CHROMEBOOK INSTALL
+------------------
+1. Open the published GitHub Pages address in Chrome on the Chromebook.
+2. After the PWA is recognized, use the browser install option or the app's Install App button when shown.
+3. Approve installation.
+4. Open the Chromebook Launcher and find Perinatal Loss Keepsake Creator.
+5. Pin it to the shelf if desired.
+
+NORMAL STAFF USE
+----------------
+Open the Keepsake Creator from Chrome or the installed app. Choose a layout, add photos, make adjustments, enter optional baby details, review, and print/save the final 8 x 10 keepsake.
+
+OFFLINE USE
+-----------
+After the app has been opened successfully while online, its core files are cached by the service worker for offline-capable use.
+
+PRIVACY
+-------
+The hosted repository contains application code and branding only. Photos selected by staff are processed locally by browser code. The application contains no photo-upload endpoint or patient database.
+
+Never commit real patient photographs, names, dates of birth, medical records, or other protected health information to this repository.
+
+Hospital privacy, HIPAA, device-management, cybersecurity, retention, and workflow approval are still required before production use.
+
+UPDATES
+-------
+Publish future application changes to the same main branch. When an installed copy is opened online, its service worker can refresh cached application files. Close and reopen the application if an older cached version remains active.
