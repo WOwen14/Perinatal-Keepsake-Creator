@@ -14,6 +14,12 @@ The Perinatal Loss Keepsake Creator provides a guided workflow for creating a me
 
 The application is designed around Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflows and is intended to be simple enough for clinical staff to use without specialized image-editing software.
 
+## Project Donation
+
+This software was developed and **donated for use in support of the Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflow**. The repository documents the application, its development history, and its technical implementation.
+
+The donation of the software does not grant third parties permission to reuse Jefferson Abington Hospital or committee names, logos, or trademarks. Any questions of software ownership, redistribution rights, or organizational deployment remain subject to the applicable agreements and organizational policies.
+
 ## Features
 
 - Installable Progressive Web App (PWA)
