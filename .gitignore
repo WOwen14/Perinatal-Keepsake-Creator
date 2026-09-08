@@ -1,0 +1,17 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Local-only working data
+patient-data/
+private-data/
+local/
+exports/
+temp/
+
+# Never commit real patient workflow artifacts
+real-patient-screenshots/
+real-patient-keepsakes/

@@ -1,22 +1,24 @@
 # Perinatal Loss Keepsake Creator
 
-A browser-based, Chromebook-friendly application designed to help perinatal loss support teams create respectful, print-ready **8 × 10 memorial keepsakes** for families.
+A browser-based, Chromebook-friendly Progressive Web App designed to help perinatal loss support teams create respectful, print-ready **8 × 10 memorial keepsakes** for families.
 
 ## Current Version
 
-**v2.4 PWA**
+**v2.7 PWA**
+
+**Status:** Working software / active development pending organizational review and approval.
 
 ## Purpose
 
 The Perinatal Loss Keepsake Creator provides a guided workflow for creating a memorial keepsake using one to four photographs, optional baby name and birthday text, and simple photo-editing controls.
 
-The application is designed for Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflows and is intended to be simple enough for clinical staff to use without specialized image-editing software.
+The application is designed around Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflows and is intended to be simple enough for clinical staff to use without specialized image-editing software.
 
 ## Features
 
 - Installable Progressive Web App (PWA)
 - Chromebook and modern browser support
-- Offline-capable operation
+- Offline-capable operation after initial installation/cache
 - 1-, 2-, 3-, and 4-photo layouts
 - Live 8 × 10 preview
 - Individual photo cropping and positioning
@@ -28,14 +30,28 @@ The application is designed for Jefferson Abington Hospital / Abington Jefferson
 - JPG and PNG export
 - Browser-based 8 × 10 printing
 - Guided workflow: Layout → Photos → Adjust → Details → Review
+- Installable PWA icons and offline cache management
 
 ## Privacy & Data Handling
 
-**Photos are processed locally in the browser. The application does not include code that uploads or transmits patient images.**
+**Photos are processed locally in the browser. The current application does not include code that uploads selected patient images to a backend service.**
 
 This repository must never be used to store real patient photographs, names, dates of birth, medical records, or other protected health information.
 
-A healthcare organization should independently review the application under its privacy, HIPAA, device-management, records-retention, cybersecurity, and clinical-workflow requirements before production use.
+GitHub Pages serves the application files themselves. A healthcare organization should independently review the application under its privacy, HIPAA, device-management, records-retention, cybersecurity, and clinical-workflow requirements before production use with real patient information.
+
+See [PRIVACY.md](PRIVACY.md) for the current data-handling model and [SECURITY.md](SECURITY.md) for security guidance.
+
+## Screenshots
+
+Screenshots are being prepared for the public repository. Public screenshots should use **synthetic demonstration images and fictional names/dates only**. Do not publish patient data or screenshots captured from real patient workflows.
+
+Planned screenshot set:
+
+- Main guided workflow / application overview
+- Layout and photo-editing workflow
+- Review / print-readiness view
+- Example finished keepsake using synthetic content
 
 ## Running Locally
 
@@ -45,9 +61,9 @@ For full PWA/service-worker behavior, serve the folder through HTTPS or a local 
 
 ## GitHub Pages
 
-The project contains `.nojekyll`, `manifest.json`, and `sw.js` and is structured for static hosting such as GitHub Pages.
+The project contains a GitHub Pages deployment workflow, `.nojekyll`, `manifest.json`, and `sw.js` and is structured for static HTTPS hosting.
 
-> **Important:** Publishing the application on GitHub Pages does not cause photographs selected by a user to be uploaded to GitHub. Image processing occurs in the user's browser. Organizations should still approve any production deployment before use with real patient information.
+Publishing the application on GitHub Pages does not, by itself, upload photographs selected by the user. Image processing is performed by the application in the user's browser. Organizations should still approve any production deployment before use with real patient information.
 
 ## Project Structure
 
@@ -55,24 +71,44 @@ The project contains `.nojekyll`, `manifest.json`, and `sw.js` and is structured
 .
 ├── index.html
 ├── styles.css
+├── app.js
 ├── app-part1.js
 ├── app-part2.js
 ├── app-part3.js
 ├── app-part4.js
 ├── manifest.json
 ├── sw.js
-├── committee-logo.svg
 ├── icons/
-│   └── icon.svg
+├── .github/workflows/pages.yml
 ├── .nojekyll
-└── GITHUB_PAGES_SETUP.txt
+├── USER_GUIDE.txt
+├── PRIVACY.md
+├── SECURITY.md
+└── CHANGELOG.md
 ```
 
-The four `app-part*.js` files are the original v2.4 application logic split into ordered, version-controlled source files. When concatenated in order, they reproduce the original `app.js` byte-for-byte.
+The four `app-part*.js` files preserve the split source representation of the application logic. `app.js` is the browser-loaded application script.
 
-## Status
+## Versioning
 
-This project is under active development and should be treated as a clinical-support tool pending organizational review and approval.
+The current deployment baseline is **v2.7 PWA**. Earlier v2.4 and v2.6 milestones are retained in [CHANGELOG.md](CHANGELOG.md).
+
+## Development Workflow
+
+- `main` — current validated/deployed baseline
+- `develop` — integrated development
+- `feature/<description>` — new capability work
+- `fix/<description>` — defect and repository corrections
+
+Changes should move from feature/fix branches into `develop`, then from tested `develop` into `main`.
+
+## Branding
+
+Jefferson Abington Hospital / committee names and branding remain the property of their respective owners. Publication of source code does not grant permission to reuse organizational names, logos, or trademarks in unrelated products or deployments.
+
+## License / Reuse
+
+No open-source license is currently declared for this repository. Do not assume permission to redistribute organizational branding or deploy the application in another clinical environment without appropriate review and authorization.
 
 ## Disclaimer
 

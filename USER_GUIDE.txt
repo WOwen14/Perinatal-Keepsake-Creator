@@ -1,0 +1,56 @@
+PERINATAL LOSS KEEPSAKE CREATOR - WEB / CHROMEBOOK VERSION 2.7 PWA
+================================================================
+
+Purpose
+-------
+A browser-based, Chromebook-friendly keepsake creator for the Abington Jefferson Perinatal Loss Committee workflow.
+Designed to build a printable 8 x 10 keepsake from one, two, three, or four photos, with optional baby name and birthday text.
+
+Current baseline
+----------------
+Version: 2.7 PWA
+Status: Working software / active development pending organizational review and approval
+
+What this version includes
+--------------------------
+- Installable Chromebook/browser PWA
+- GitHub Pages deployment support
+- Offline-capable installed-app workflow after initial cache
+- Guided workflow: Layout, Photos, Adjust, Details, Review
+- 1-photo, 2-photo, 3-photo, and 4-photo keepsake layouts
+- Live 8 x 10 preview
+- Drag/reposition photos inside the preview
+- Basic and advanced photo-adjustment controls
+- Brightness, contrast, saturation, hue, warmth, sharpness, zoom, position, rotation, and crop controls
+- Color, black-and-white, and sepia styles
+- Apply selected photo settings to all active photos
+- Optional baby's name and birthday
+- Readable font choices for memorial text
+- Print-readiness review step
+- Save final keepsake as JPG or PNG
+- Print through the browser print dialog
+- Current PWA install icons and offline cache baseline
+
+How to use
+----------
+1. Open the hosted application or serve the repository through HTTPS/local web server for full PWA behavior.
+2. Choose a layout.
+3. Add photos.
+4. Adjust photos if needed.
+5. Enter baby details if desired.
+6. Review print readiness.
+7. Save or print the completed keepsake.
+
+Privacy
+-------
+Photos selected by the operator are processed locally in the browser by the current application. The application does not include a backend image-upload workflow.
+
+Never place real patient photographs, names, dates of birth, medical records, or other protected health information in the public GitHub repository.
+
+A healthcare organization should review the application under its own privacy, HIPAA, device-management, records-retention, cybersecurity, and clinical-workflow policies before production use.
+
+Public screenshots and demonstrations must use synthetic images and fictional names/dates only.
+
+Version history
+---------------
+See CHANGELOG.md for the documented v2.4, v2.6, and v2.7 milestones.
