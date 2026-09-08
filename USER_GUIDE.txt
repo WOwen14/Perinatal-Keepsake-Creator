@@ -4,7 +4,11 @@ PERINATAL LOSS KEEPSAKE CREATOR - WEB / CHROMEBOOK VERSION 2.7 PWA
 Purpose
 -------
 A browser-based, Chromebook-friendly keepsake creator for the Abington Jefferson Perinatal Loss Committee workflow.
-Designed to build a printable 8 x 10 keepsake from one, two, three, or four photos, with optional baby name and birthday text.
+Designed to build a printable 8 x 10 keepsake from one, two, three, or four photos, with required baby name and birthday text.
+
+Project donation
+----------------
+This software was developed and donated for use in support of the Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflow.
 
 Current baseline
 ----------------
@@ -24,7 +28,7 @@ What this version includes
 - Brightness, contrast, saturation, hue, warmth, sharpness, zoom, position, rotation, and crop controls
 - Color, black-and-white, and sepia styles
 - Apply selected photo settings to all active photos
-- Optional baby's name and birthday
+- Required baby's name and birthday
 - Readable font choices for memorial text
 - Print-readiness review step
 - Save final keepsake as JPG or PNG
@@ -37,9 +41,13 @@ How to use
 2. Choose a layout.
 3. Add photos.
 4. Adjust photos if needed.
-5. Enter baby details if desired.
+5. Enter the baby's name and birthday. Both fields are required for the completed keepsake workflow.
 6. Review print readiness.
 7. Save or print the completed keepsake.
+
+Required details
+----------------
+The Baby's Name and Birthday fields are required. They are part of the memorial keepsake content and must be completed before the keepsake is considered ready for final review and printing.
 
 Privacy
 -------

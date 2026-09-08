@@ -10,9 +10,15 @@ A browser-based, Chromebook-friendly Progressive Web App designed to help perina
 
 ## Purpose
 
-The Perinatal Loss Keepsake Creator provides a guided workflow for creating a memorial keepsake using one to four photographs, optional baby name and birthday text, and simple photo-editing controls.
+The Perinatal Loss Keepsake Creator provides a guided workflow for creating a memorial keepsake using one to four photographs, required baby name and birthday text, and simple photo-editing controls.
 
 The application is designed around Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflows and is intended to be simple enough for clinical staff to use without specialized image-editing software.
+
+## Project Donation
+
+This software was developed and **donated for use in support of the Jefferson Abington Hospital / Abington Jefferson Perinatal Loss Committee workflow**. The repository documents the application, its development history, and its technical implementation.
+
+The donation of the software does not grant third parties permission to reuse Jefferson Abington Hospital or committee names, logos, or trademarks. Any questions of software ownership, redistribution rights, or organizational deployment remain subject to the applicable agreements and organizational policies.
 
 ## Features
 
@@ -25,12 +31,16 @@ The application is designed around Jefferson Abington Hospital / Abington Jeffer
 - Brightness, contrast, saturation, hue, warmth, sharpness, zoom, rotation, and position controls
 - Color, black-and-white, and sepia styles
 - Apply selected settings across active photos
-- Optional baby's name and birthday
+- **Required baby's name and birthday** for the completed keepsake workflow
 - Multiple readable memorial fonts
 - JPG and PNG export
 - Browser-based 8 × 10 printing
 - Guided workflow: Layout → Photos → Adjust → Details → Review
 - Installable PWA icons and offline cache management
+
+## Required Baby Details
+
+The keepsake workflow requires both the **Baby's Name** and **Birthday** to be entered in the Details step before the keepsake is considered complete and ready for final review/printing. These fields are part of the memorial keepsake content and are not optional workflow elements.
 
 ## Privacy & Data Handling
 
@@ -44,14 +54,43 @@ See [PRIVACY.md](PRIVACY.md) for the current data-handling model and [SECURITY.m
 
 ## Screenshots
 
-Screenshots are being prepared for the public repository. Public screenshots should use **synthetic demonstration images and fictional names/dates only**. Do not publish patient data or screenshots captured from real patient workflows.
+The screenshots below use **synthetic demonstration imagery and fictional demo details only**. No real patient photographs or protected health information are shown.
 
-Planned screenshot set:
+### Guided Workflow / Application Overview
 
-- Main guided workflow / application overview
-- Layout and photo-editing workflow
-- Review / print-readiness view
-- Example finished keepsake using synthetic content
+![Perinatal Loss Keepsake Creator application overview](Assets/Screenshots/01-application-overview.png)
+
+The main workspace combines the guided five-step workflow, live 8 × 10 preview, layout selection, privacy reminder, and local/offline status in a single operator view.
+
+### Layout Selection
+
+![Keepsake layout selection](Assets/Screenshots/02-layout-selection.png)
+
+Operators can select from multiple one-, two-, three-, and four-photo arrangements while the live keepsake preview updates immediately.
+
+### Photo Loading
+
+![Photo loading workflow](Assets/Screenshots/03-photo-loading.png)
+
+The Photos step provides dedicated photo slots and direct add-photo controls inside the live preview.
+
+### Photo Adjustments
+
+![Photo adjustment controls](Assets/Screenshots/04-photo-adjustments.png)
+
+Each photo can be adjusted independently with style, brightness, contrast, saturation, hue, warmth, sharpness, zoom, position, rotation, and crop controls. Selected settings can also be applied across active photos.
+
+### Required Details and Final Preview
+
+![Required baby details and final keepsake preview](Assets/Screenshots/05-details-final-preview.png)
+
+The Details step captures the required **Baby's Name** and **Birthday**, applies the selected memorial font, and shows the completed keepsake before final review and printing.
+
+### Print Preview
+
+![Browser print preview for completed 8 by 10 keepsake](Assets/Screenshots/06-print-preview.png)
+
+The completed keepsake is rendered through the browser print workflow for an 8 × 10 output. The screenshot uses synthetic test imagery and fictional demo details.
 
 ## Running Locally
 
@@ -79,6 +118,7 @@ Publishing the application on GitHub Pages does not, by itself, upload photograp
 ├── manifest.json
 ├── sw.js
 ├── icons/
+├── Assets/Screenshots/
 ├── .github/workflows/pages.yml
 ├── .nojekyll
 ├── USER_GUIDE.txt
